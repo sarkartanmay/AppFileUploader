@@ -28,36 +28,10 @@ namespace AppFileUploader.API.Controllers
         //[Authorize(Policy = "P1")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<int>> Save([FromForm] AddContentCommandWrap command)
+        public async Task<ActionResult<int>> Save([FromForm] AddContentCommand command)
         {
-            if (command.File.Length > 0)
-            {
-                try
-                {
-                    AddContentCommand cmd = new AddContentCommand()
-                    {
-                        Description = command.Description,
-                        Name = command.Name,
-                        Filename = command.File.FileName,
-                        UploadTime = DateTime.UtcNow
-                    };
-
-                    using (FileStream fs = System.IO.File.Create(".\\Uploads\\" + command.File.FileName))
-                    {
-                        command.File.CopyTo(fs);
-                        fs.Flush();
-                        var result = await _mediator.Send(cmd);
-                        return Ok(result);
-                    }
-                }
-                catch(Exception ex)
-                {
-                    _logger.LogError(ex.Message);
-                }
-            }
-            var result2 = HttpStatusCode.InternalServerError;
-            return Ok(result2);
-        }
-        
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }        
     }
 }

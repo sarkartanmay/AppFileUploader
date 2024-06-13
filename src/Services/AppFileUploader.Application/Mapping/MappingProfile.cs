@@ -12,7 +12,7 @@ namespace AppFileUploader.Application.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<FileContent, AddContentCommand>().ReverseMap();   
+            CreateMap<FileContent, AddContentCommandIntWrap>().ReverseMap();   
         }        
     }
 }
