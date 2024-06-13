@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+
+  external_auth_api:
+    image: tanmaysarkar/appfileuploader:${APP_AUTH_VERSION}
+    ports:
+      - ${APP_AUTH_PORT}:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${APP_AUTH_ENV}
+      - ConnectionStrings:MySQLDB=${APP_AUTH_CONN}
+      - JWTConfig:Key=${APP_AUTH_EXTERNAL_JWT_KEY}
+    volumes:
+      - appupdlog:/app/logs/
+      - appupdfile:/app/Uploads/
+
+volumes:
+  appupdlog:
+  appupdfile:
+  
