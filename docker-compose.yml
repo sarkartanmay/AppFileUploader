@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
 
-  external_auth_api:
+  appfileuploader:
     image: tanmaysarkar/appfileuploader:${APP_AUTH_VERSION}
     ports:
       - ${APP_AUTH_PORT}:8080
