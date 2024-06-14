@@ -58,7 +58,7 @@ namespace AppFileUploader.Application.Features.FileContents.Commands
 
         public async Task<FileContent> Handle(AddContentCommand request, CancellationToken cancellationToken)
         {
-            bool uploadStatus = _storage.MoveFiles(request.File);
+            bool uploadStatus = await _storage.MoveFiles(request.File);
             if (uploadStatus)
             {
                 AddContentCommandIntWrap request2 = new AddContentCommandIntWrap()

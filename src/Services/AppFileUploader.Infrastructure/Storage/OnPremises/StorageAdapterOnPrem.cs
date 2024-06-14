@@ -23,24 +23,21 @@ namespace AppFileUploader.Infrastructure.Storage.OnPremises
             _logger = logger;
         }
 
-        public bool MoveFiles(IFormFile file)
+        public async Task<bool> MoveFiles(IFormFile file)
         {
             if (file.Length > 0)
             {
-                using (FileStream fs = File.Create(_configuration.GetSection("InfraStructure:OnPrem:UploadPath").Value + file.FileName))
-                {
-                    file.CopyTo(fs);
-                    fs.Flush();
-                    _logger.LogInformation("File has been uploaded");
-                    return true;
-                }
+                FileStream fs = File.Create(_configuration.GetSection("InfraStructure:OnPrem:UploadPath").Value + file.FileName);
+                await file.CopyToAsync(fs);
+                fs.Flush();
+                _logger.LogInformation("File has been uploaded");
+                return true;
             }
             else
             {
-                _logger.LogError("There is an issue with file");
+                _logger.LogError("There is an issue with file"); 
                 return false;
             }
-            
-        }
+        }        
     }
 }

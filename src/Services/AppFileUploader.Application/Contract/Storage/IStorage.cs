@@ -9,6 +9,6 @@ namespace AppFileUploader.Application.Contract.Storage
 {
     public interface IStorage
     {
-        public bool MoveFiles(IFormFile File);
+        public Task<bool> MoveFiles(IFormFile File);
     }
 }
