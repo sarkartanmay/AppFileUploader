@@ -3,13 +3,15 @@ version: '3.4'
 services:
 
   appfileuploader:
-    image: tanmaysarkar/appfileuploader:${APP_AUTH_VERSION}
+    image: tanmaysarkar/appfileuploader:${APP_UPD_VERSION}
     ports:
-      - ${APP_AUTH_PORT}:8080
+      - ${APP_UPD_PORT}:8080
     environment:
-      - ASPNETCORE_ENVIRONMENT=${APP_AUTH_ENV}
-      - ConnectionStrings:MySQLDB=${APP_AUTH_CONN}
-      - JWTConfig:Key=${APP_AUTH_EXTERNAL_JWT_KEY}
+      - ASPNETCORE_ENVIRONMENT=${APP_UPD_ENV}
+      - ConnectionStrings:MySQLDB=${APP_UPD_CONN}
+      - JWTConfig:Key=${APP_UPD_EXTERNAL_JWT_KEY}
+      - InfraStructure:Mode=${APP_UPD_INFRA_MODE}
+      - InfraStructure:OnPrem:UploadPath=./Uploads/
     volumes:
       - appupdlog:/app/logs/
       - appupdfile:/app/Uploads/

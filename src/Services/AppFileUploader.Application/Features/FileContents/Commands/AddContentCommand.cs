@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppFileUploader.Application.Contract.Persistence;
+using AppFileUploader.Application.Contract.Storage;
 using AppFileUploader.Domain.Entities;
 using AutoMapper;
 using FluentValidation;
@@ -44,41 +45,32 @@ namespace AppFileUploader.Application.Features.FileContents.Commands
         private readonly IMapper _mapper;
         private readonly ILogger<AddContentCommandHandler> _logger;
         private readonly IConfiguration _configuration;
+        private readonly IStorage _storage;
 
-        public AddContentCommandHandler(IFileContent<FileContent> repository,  IMapper mapper, ILogger<AddContentCommandHandler> logger, IConfiguration configuration)
+        public AddContentCommandHandler(IFileContent<FileContent> repository,  IMapper mapper, ILogger<AddContentCommandHandler> logger, IConfiguration configuration, IStorage storage)
         {
             _repository = repository;
             _mapper = mapper;
             _logger = logger;
             _configuration = configuration;
+            _storage = storage;
         }
 
         public async Task<FileContent> Handle(AddContentCommand request, CancellationToken cancellationToken)
         {
-            if (request.File.Length > 0)
+            bool uploadStatus = _storage.MoveFiles(request.File);
+            if (uploadStatus)
             {
-                try
+                AddContentCommandIntWrap request2 = new AddContentCommandIntWrap()
                 {
-                    AddContentCommandIntWrap request2 = new AddContentCommandIntWrap()
-                    {
-                        Description = request.Description,
-                        Name = request.Name,
-                        Filename = request.File.FileName,
-                        UploadTime = DateTime.UtcNow
-                    };
-                    using (FileStream fs = File.Create(_configuration.GetSection("UploadPath").Value + request.File.FileName))
-                    {
-                        request.File.CopyTo(fs);
-                        fs.Flush();                        
-                        var CmdEnt = _mapper.Map<FileContent>(request2);
-                        var newObj = await _repository.AddAsync(CmdEnt);
-                        return newObj;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex.Message);
-                }
+                    Description = request.Description,
+                    Name = request.Name,
+                    Filename = request.File.FileName,
+                    UploadTime = DateTime.UtcNow
+                };
+                var CmdEnt = _mapper.Map<FileContent>(request2);
+                var newObj = await _repository.AddAsync(CmdEnt);
+                return newObj;
             }
             return null;            
         }

@@ -12,5 +12,8 @@
   <ItemGroup>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Storage\Azure\" />
+  </ItemGroup>
 
 </Project>
