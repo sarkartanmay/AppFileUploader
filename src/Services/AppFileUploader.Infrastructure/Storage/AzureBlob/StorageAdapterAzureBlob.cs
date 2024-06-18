@@ -35,10 +35,10 @@ namespace AppFileUploader.Infrastructure.Storage.AzureBlob
                     var container = new BlobContainerClient(BlobStorageConn, BlobStorageContainer);
                     var blob = container.GetBlobClient(file.FileName);
 
-                    var stream = File.OpenRead(file.FileName);
+                    var stream = file.OpenReadStream();
                     await blob.UploadAsync(stream);
 
-                    _logger.LogInformation("File has been uploaded to Azure");
+                    _logger.LogInformation("File has been uploaded to Azure {url}", container.Uri.AbsoluteUri);
                     return true;
                 }
                 catch (Exception ex)
