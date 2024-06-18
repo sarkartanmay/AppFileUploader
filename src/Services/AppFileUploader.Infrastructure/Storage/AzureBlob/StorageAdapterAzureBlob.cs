@@ -30,14 +30,24 @@ namespace AppFileUploader.Infrastructure.Storage.AzureBlob
 
             if (file.Length > 0)
             {
-                var container = new BlobContainerClient(BlobStorageConn, BlobStorageContainer);
-                var blob = container.GetBlobClient(file.FileName);
+                try
+                {
+                    var container = new BlobContainerClient(BlobStorageConn, BlobStorageContainer);
+                    var blob = container.GetBlobClient(file.FileName);
 
-                var stream = File.OpenRead(file.FileName);
-                await blob.UploadAsync(stream);
+                    var stream = File.OpenRead(file.FileName);
+                    await blob.UploadAsync(stream);
 
-                _logger.LogInformation("File has been uploaded to Azure");
-                return true;
+                    _logger.LogInformation("File has been uploaded to Azure");
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("There is an issue to Upload on Azure");
+                    _logger.LogError(ex.Message);
+                    return false;
+                }
+                
             }
             else
             {

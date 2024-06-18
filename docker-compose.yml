@@ -12,8 +12,8 @@ services:
       - JWTConfig:Key=${APP_UPD_EXTERNAL_JWT_KEY}
       - InfraStructure:Mode=${APP_UPD_INFRA_MODE}
       - InfraStructure:OnPrem:UploadPath=./Uploads/
-      - InfraStructure:Azure:BlobStorageConn=${APP_UPD_INFRA_AZURE_BLOB_CONN}
-      - InfraStructure:Azure:BlobStorageContainer=${APP_UPD_INFRA_AZURE_BLOB_CONT}
+      - InfraStructure:AzureBlob:BlobStorageConn=${APP_UPD_INFRA_AZURE_BLOB_CONN}
+      - InfraStructure:AzureBlob:BlobStorageContainer=${APP_UPD_INFRA_AZURE_BLOB_CONT}
     volumes:
       - appupdlog:/app/logs/
       - appupdfile:/app/Uploads/
