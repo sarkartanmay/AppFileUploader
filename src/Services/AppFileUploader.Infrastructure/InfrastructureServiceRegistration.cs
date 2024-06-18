@@ -19,10 +19,14 @@ namespace AppFileUploader.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             string storageType = configuration.GetSection("InfraStructure:Mode").Value.ToString().ToUpper();
+            string dbConn = $"Server={configuration.GetConnectionString("MySQLDB:Server")};" +
+                $"User ID={configuration.GetConnectionString("MySQLDB:User")};" +
+                $"Password={configuration.GetConnectionString("MySQLDB:Password")};" +
+                $"Database={configuration.GetConnectionString("MySQLDB:Database")};" +
+                $"SSL Mode=None" ;
             services.AddDbContext<AppManagementDbContext>(
-                options => options.UseMySql(
-                    configuration.GetConnectionString("MySQLDB"),
-                    ServerVersion.AutoDetect(configuration.GetConnectionString("MySQLDB"))
+                options => options.UseMySql(dbConn,
+                    ServerVersion.AutoDetect(dbConn)
                 )
             );
             services.AddScoped(typeof(IFileContent<>), typeof(FileContentRepo<>));
