@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppFileUploader.Infrastructure.Storage.Azure
+namespace AppFileUploader.Infrastructure.Storage.AzureBlob
 {
     public class StorageAdapterAzureBlob : IStorage
     {
@@ -25,8 +25,8 @@ namespace AppFileUploader.Infrastructure.Storage.Azure
 
         public async Task<bool> MoveFiles(IFormFile file)
         {
-            var BlobStorageConn = _configuration.GetSection("InfraStructure:Azure:BlobStorageConn").Value;
-            var BlobStorageContainer = _configuration.GetSection("InfraStructure:Azure:BlobStorageContainer").Value;
+            var BlobStorageConn = _configuration.GetSection("InfraStructure:AzureBlob:BlobStorageConn").Value;
+            var BlobStorageContainer = _configuration.GetSection("InfraStructure:AzureBlob:BlobStorageContainer").Value;
 
             if (file.Length > 0)
             {

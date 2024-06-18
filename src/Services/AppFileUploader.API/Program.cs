@@ -1,11 +1,12 @@
 using Serilog;
 using AppFileUploader.Application;
 using AppFileUploader.Infrastructure;
-using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AppFileUploader.API.Extensions;
+using AppFileUploader.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -140,10 +141,9 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//app.MigrateDatabase<AppManagementDbContext>();
+app.MigrateDatabase<AppManagementDbContext>();
 
 app.UseCors(MyAllowSpecificOrigins);
-
 
 app.UseHttpsRedirection();
 

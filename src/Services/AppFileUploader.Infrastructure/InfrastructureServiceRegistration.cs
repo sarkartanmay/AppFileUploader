@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AppFileUploader.Application.Contract.Persistence;
 using AppFileUploader.Application.Contract.Storage;
 using AppFileUploader.Infrastructure.Persistence;
-using AppFileUploader.Infrastructure.Storage.Azure;
+using AppFileUploader.Infrastructure.Storage.AzureBlob;
 using AppFileUploader.Infrastructure.Storage.OnPremises;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,7 +32,7 @@ namespace AppFileUploader.Infrastructure
                 case "ONPREM":
                     services.AddTransient<IStorage, StorageAdapterOnPrem>();
                     break;
-                case "AZURE":
+                case "AZUREBLOB":
                     services.AddTransient<IStorage, StorageAdapterAzureBlob>();
                     break;
             }
