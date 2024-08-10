@@ -1,9 +1,11 @@
-﻿using AppFileUploader.Application.Contract.Storage;
+﻿using AppCommonSettings;
+using AppFileUploader.Application.Contract.Storage;
 using AppFileUploader.Infrastructure.Storage.OnPremises;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +16,19 @@ namespace AppFileUploader.Infrastructure.Storage.AzureBlob
 {
     public class StorageAdapterAzureBlob : IStorage
     {
-        private readonly IConfiguration _configuration;
         private readonly ILogger<StorageAdapterAzureBlob> _logger;
+        private readonly ApplicationOptions _options;
 
-        public StorageAdapterAzureBlob(IConfiguration configuration, ILogger<StorageAdapterAzureBlob> logger)
+        public StorageAdapterAzureBlob(ILogger<StorageAdapterAzureBlob> logger, IOptions<ApplicationOptions> options)
         {
-            _configuration = configuration;
             _logger = logger;
+            _options = options.Value;
         }
 
         public async Task<bool> MoveFiles(IFormFile file)
         {
-            var BlobStorageConn = _configuration.GetSection("InfraStructure:AzureBlob:BlobStorageConn").Value;
-            var BlobStorageContainer = _configuration.GetSection("InfraStructure:AzureBlob:BlobStorageContainer").Value;
+            var BlobStorageConn = _options.InfraStructure.AzureBlob.BlobStorageConn;
+            var BlobStorageContainer = _options.InfraStructure.AzureBlob.BlobStorageContainer;
 
             if (file.Length > 0)
             {

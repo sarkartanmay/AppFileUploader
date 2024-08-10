@@ -7,9 +7,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AppFileUploader.API.Extensions;
 using AppFileUploader.Infrastructure.Persistence;
+using AppCommonSettings;
+using AppFileUploader.Application.Contract.Storage;
+using AppFileUploader.Infrastructure.Storage.OnPremises;
+
 
 var builder = WebApplication.CreateBuilder(args);
-
+ApplicationOptions applicationOptions = builder.Configuration.GetSection("ApplicationOptions").Get<ApplicationOptions>();
+builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection(nameof(ApplicationOptions)));
 var logger = new LoggerConfiguration()
                   .ReadFrom.Configuration(builder.Configuration)
                   .Enrich.FromLogContext()
@@ -27,7 +32,7 @@ builder.Services.AddAuthentication(options =>
 {
     jwtOptions.TokenValidationParameters = new TokenValidationParameters()
     {
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTConfig:Key"])),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(applicationOptions.JwtConfig.Key)),
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateIssuerSigningKey = true,
@@ -57,7 +62,7 @@ builder.Services.AddAuthorization(option =>
 
 #region CORS
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-string origin = builder.Configuration["ValidOrigin"];
+string origin = applicationOptions.ValidOrigin;
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
@@ -75,8 +80,10 @@ builder.Services.AddCors(options =>
 #endregion
 
 // Add services to the container.
+//builder.Services.AddTransient<IApplicationOptions, ApplicationOptions>();
+
 builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddInfrastructureServices(applicationOptions);
 // ---------------------------
 
 

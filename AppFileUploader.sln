@@ -7,21 +7,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{83C4D428-C46
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1FF669D2-B5F3-458A-BA25-5C0D621890F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppFileUploader.API", "src\Services\AppFileUploader.API\AppFileUploader.API.csproj", "{C08765FC-DEE6-4949-A7B3-A49B2175300D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppFileUploader.API", "src\Services\AppFileUploader.API\AppFileUploader.API.csproj", "{C08765FC-DEE6-4949-A7B3-A49B2175300D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppFileUploader.Application", "src\Services\AppFileUploader.Application\AppFileUploader.Application.csproj", "{7FA953BC-B379-4515-9CA1-D9F1FE7FDACB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppFileUploader.Application", "src\Services\AppFileUploader.Application\AppFileUploader.Application.csproj", "{7FA953BC-B379-4515-9CA1-D9F1FE7FDACB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppFileUploader.Domain", "src\Services\AppFileUploader.Domain\AppFileUploader.Domain.csproj", "{26F33F39-ED1B-4BD6-A120-1E06E8B2B81B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppFileUploader.Domain", "src\Services\AppFileUploader.Domain\AppFileUploader.Domain.csproj", "{26F33F39-ED1B-4BD6-A120-1E06E8B2B81B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppFileUploader.Infrastructure", "src\Services\AppFileUploader.Infrastructure\AppFileUploader.Infrastructure.csproj", "{206FC19E-71C3-450A-AE7E-D61FD42BA098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppFileUploader.Infrastructure", "src\Services\AppFileUploader.Infrastructure\AppFileUploader.Infrastructure.csproj", "{206FC19E-71C3-450A-AE7E-D61FD42BA098}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{8AA7D4A9-7596-4191-B5AB-376EB3F5CB50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCommonSettings", "src\Library\AppCommonSettings\AppCommonSettings.csproj", "{367F5A58-541D-48DA-8FAE-9C9E81A5AA68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C08765FC-DEE6-4949-A7B3-A49B2175300D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -40,6 +41,13 @@ Global
 		{206FC19E-71C3-450A-AE7E-D61FD42BA098}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{206FC19E-71C3-450A-AE7E-D61FD42BA098}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{206FC19E-71C3-450A-AE7E-D61FD42BA098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{367F5A58-541D-48DA-8FAE-9C9E81A5AA68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{367F5A58-541D-48DA-8FAE-9C9E81A5AA68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{367F5A58-541D-48DA-8FAE-9C9E81A5AA68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{367F5A58-541D-48DA-8FAE-9C9E81A5AA68}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1FF669D2-B5F3-458A-BA25-5C0D621890F1} = {83C4D428-C460-4636-9422-357ED06D29A7}
@@ -47,5 +55,10 @@ Global
 		{7FA953BC-B379-4515-9CA1-D9F1FE7FDACB} = {1FF669D2-B5F3-458A-BA25-5C0D621890F1}
 		{26F33F39-ED1B-4BD6-A120-1E06E8B2B81B} = {1FF669D2-B5F3-458A-BA25-5C0D621890F1}
 		{206FC19E-71C3-450A-AE7E-D61FD42BA098} = {1FF669D2-B5F3-458A-BA25-5C0D621890F1}
+		{8AA7D4A9-7596-4191-B5AB-376EB3F5CB50} = {83C4D428-C460-4636-9422-357ED06D29A7}
+		{367F5A58-541D-48DA-8FAE-9C9E81A5AA68} = {8AA7D4A9-7596-4191-B5AB-376EB3F5CB50}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7FDCDF2E-EAB2-4940-B5DB-1D2D902DCA09}
 	EndGlobalSection
 EndGlobal

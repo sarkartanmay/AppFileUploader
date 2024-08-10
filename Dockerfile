@@ -4,6 +4,7 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
+COPY ["src/Library/AppCommonSettings/AppCommonSettings.csproj", "src/Library/AppCommonSettings/"]
 COPY ["src/Services/AppFileUploader.API/AppFileUploader.API.csproj", "src/Services/AppFileUploader.API/"]
 COPY ["src/Services/AppFileUploader.Infrastructure/AppFileUploader.Infrastructure.csproj", "src/Services/AppFileUploader.Infrastructure/"]
 COPY ["src/Services/AppFileUploader.Application/AppFileUploader.Application.csproj", "src/Services/AppFileUploader.Application/"]
@@ -17,6 +18,10 @@ FROM build AS publish
 RUN dotnet publish "AppFileUploader.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
+# ENV APP_USER app_user
+# RUN useradd -r $APP_USER
+# USER $APP_USER
 WORKDIR /app
 COPY --from=publish /app/publish .
+
 ENTRYPOINT ["dotnet", "AppFileUploader.API.dll"]

@@ -11,26 +11,26 @@ using AppFileUploader.Infrastructure.Storage.OnPremises;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AppCommonSettings;
 
 namespace AppFileUploader.Infrastructure
 {
     public static class InfrastructureServiceRegistration
     {
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, ApplicationOptions applicationOptions)
         {
-            string storageType = configuration.GetSection("InfraStructure:Mode").Value.ToString().ToUpper();
-            string dbConn = $"Server={configuration.GetConnectionString("MySQLDB:Server")};" +
-                $"User ID={configuration.GetConnectionString("MySQLDB:User")};" +
-                $"Password={configuration.GetConnectionString("MySQLDB:Password")};" +
-                $"Database={configuration.GetConnectionString("MySQLDB:Database")};" +
-                $"SSL Mode=None" ;
+            string storageType = applicationOptions.InfraStructure.Mode.ToUpper();
+            string dbConn = $"Server={applicationOptions.MySqlDb.Server};" +
+                $"User ID={applicationOptions.MySqlDb.User};" +
+                $"Password={applicationOptions.MySqlDb.Password};" +
+                $"Database={applicationOptions.MySqlDb.Database};" +
+                $"SSL Mode={applicationOptions.MySqlDb.SSLMode}" ;
             services.AddDbContext<AppManagementDbContext>(
                 options => options.UseMySql(dbConn,
                     ServerVersion.AutoDetect(dbConn)
                 )
             );
             services.AddScoped(typeof(IFileContent<>), typeof(FileContentRepo<>));
-
             switch (storageType)
             {
                 case "ONPREM":

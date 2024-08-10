@@ -1,9 +1,11 @@
-﻿using AppFileUploader.Application.Contract.Storage;
+﻿using AppCommonSettings;
+using AppFileUploader.Application.Contract.Storage;
 using AppFileUploader.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,20 +16,23 @@ namespace AppFileUploader.Infrastructure.Storage.OnPremises
 {
     public class StorageAdapterOnPrem : IStorage
     {
-        private readonly IConfiguration _configuration;
         private readonly ILogger<StorageAdapterOnPrem> _logger;
+        private readonly ApplicationOptions _options;
 
-        public StorageAdapterOnPrem(IConfiguration configuration, ILogger<StorageAdapterOnPrem> logger)
+
+        public StorageAdapterOnPrem( ILogger<StorageAdapterOnPrem> logger , IOptions<ApplicationOptions> options)
         {
-            _configuration = configuration;
             _logger = logger;
+            _options = options.Value;
         }
+
+        
 
         public async Task<bool> MoveFiles(IFormFile file)
         {
             if (file.Length > 0)
             {
-                FileStream fs = File.Create(_configuration.GetSection("InfraStructure:OnPrem:UploadPath").Value + file.FileName);
+                FileStream fs = File.Create(_options.InfraStructure.OnPrem.UploadPath + file.FileName);
                 await file.CopyToAsync(fs);
                 fs.Flush();
                 _logger.LogInformation("File has been uploaded");
