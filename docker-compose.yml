@@ -2,27 +2,26 @@ version: '3.4'
 
 services:
 
-  app_fileuploader:
+  appfileuploader:
     image: tanmaysarkar/appfileuploader:${APP_UPD_VERSION}
     ports:
       - ${APP_UPD_PORT}:8080
     environment:
       - ASPNETCORE_ENVIRONMENT=${APP_UPD_ENV}
-      - ConnectionStrings:MySQLDB:Server=${APP_UPD_DB_SERVER}
-      - ConnectionStrings:MySQLDB:Database=${APP_UPD_DB_DATABASE}
-      - ConnectionStrings:MySQLDB:User=${APP_UPD_DB_USER}
-      - ConnectionStrings:MySQLDB:Password=${APP_UPD_DB_PASSWORD}
-      - JWTConfig:Key=${APP_UPD_EXTERNAL_JWT_KEY}
-      - InfraStructure:Mode=${APP_UPD_INFRA_MODE}
-      - InfraStructure:OnPrem:UploadPath=./Uploads/
-      - InfraStructure:AzureBlob:BlobStorageConn=${APP_UPD_INFRA_AZURE_BLOB_CONN}
-      - InfraStructure:AzureBlob:BlobStorageContainer=${APP_UPD_INFRA_AZURE_BLOB_CONT}
+      - ApplicationOptions:MySqlDb:Server=${APP_UPD_DB_SERVER}
+      - ApplicationOptions:MySqlDb:User=${APP_UPD_DB_USER}
+      - ApplicationOptions:MySqlDb:Password=${APP_UPD_DB_PASSWORD}
+      - ApplicationOptions:MySqlDb:Database=${APP_UPD_DB_DATABASE}
+      - ApplicationOptions:MySqlDb:SSLMode=${APP_UPD_DB_SSL}
+      - ApplicationOptions:JWTConfig:Key=${APP_UPD_EXTERNAL_JWT_KEY}
+      - ApplicationOptions:InfraStructure:Mode=${APP_UPD_INFRA_MODE}
+      - ApplicationOptions:InfraStructure:OnPrem:UploadPath=./Uploads/
       - Serilog:WriteTo__2__Args:connectionString=${APP_UPD_INFRA_LOG_AZURE_APPINSIGHT}
     volumes:
-      - app_upd_log:/app/logs/
-      - app_upd_file:/app/Uploads/
+      - appupdlog:/app/logs/
+      - appupdfile1:/app/Uploads/
 
 volumes:
-  app_upd_log:
-  app_upd_file:
+  appupdlog:
+  appupdfile1:
   
