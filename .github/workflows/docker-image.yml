@@ -1,0 +1,16 @@
+name: DockerPublish
+on:
+  [workflow_dispatch]
+
+jobs:
+  publish_images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build . -t tanmaysarkar/appfileuploader:latest
+      - name: Push Image to Docker hub
+        run: |
+          docker login -u tanmaysarkar -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push tanmaysarkar/appfileuploader:latest
