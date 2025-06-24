@@ -32,21 +32,25 @@ builder.Logging.AddSerilog(logger);
 
 #region Open Telemetry
 
+string appName = applicationOptions.AppName;
+
 builder.Services.AddOpenTelemetry()
     .WithTracing(tracerProviderBuilder =>
     {
-        tracerProviderBuilder            
+        tracerProviderBuilder
+            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(appName+"_Trace"))
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
             .AddSqlClientInstrumentation()
             .AddSource("AppLayer")
-            .AddSource("DBLayer")
+            .AddSource("InfraLayer")
             .AddOtlpExporter();
     })
     .WithMetrics(metricsBuilder =>
     {
         metricsBuilder
             .AddRuntimeInstrumentation()
+            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(appName+"_Metrics"))
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
             .AddMeter("Microsoft.AspNetCore.Hosting")

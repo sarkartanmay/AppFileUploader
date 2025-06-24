@@ -8,7 +8,7 @@ namespace AppFileUploader.Infrastructure.Persistence
     public class FileContentRepo<T> : IFileContent<T> where T : FileContent
     {
         protected readonly AppManagementDbContext _context;
-        private static readonly ActivitySource ActivitySource = new("DBLayer");
+        private static readonly ActivitySource ActivitySource = new("InfraLayer");
 
         public FileContentRepo( AppManagementDbContext context)
         {
