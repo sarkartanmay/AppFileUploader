@@ -3,6 +3,7 @@
     public class ApplicationOptions
     {
         public string AppName { get; set; } = string.Empty;
+        public string OtlpEndpoint { get; set; } = string.Empty;
         public string AllowedHosts { get; set; } = string.Empty;
         public string ValidOrigin { get; set; } = string.Empty;
         public InfraStructure InfraStructure { get; set; } = new InfraStructure();

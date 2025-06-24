@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -44,7 +45,11 @@ builder.Services.AddOpenTelemetry()
             .AddSqlClientInstrumentation()
             .AddSource("AppLayer")
             .AddSource("InfraLayer")
-            .AddOtlpExporter();
+            .AddOtlpExporter(otlpOptions =>
+            {
+                otlpOptions.Endpoint = new Uri(applicationOptions.OtlpEndpoint);
+                otlpOptions.Protocol = OtlpExportProtocol.Grpc;
+            });
     })
     .WithMetrics(metricsBuilder =>
     {
@@ -55,7 +60,11 @@ builder.Services.AddOpenTelemetry()
             .AddHttpClientInstrumentation()
             .AddMeter("Microsoft.AspNetCore.Hosting")
             .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
-            .AddOtlpExporter();
+            .AddOtlpExporter(otlpOptions =>
+            {
+                otlpOptions.Endpoint = new Uri(applicationOptions.OtlpEndpoint);
+                otlpOptions.Protocol = OtlpExportProtocol.Grpc;
+            });
     }).WithLogging( );
 
 #endregion
