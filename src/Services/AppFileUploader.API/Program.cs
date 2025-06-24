@@ -1,15 +1,21 @@
-using Serilog;
+using AppCommonSettings;
+using AppFileUploader.API.Extensions;
 using AppFileUploader.Application;
+using AppFileUploader.Application.Contract.Storage;
 using AppFileUploader.Infrastructure;
-using Microsoft.OpenApi.Models;
+using AppFileUploader.Infrastructure.Persistence;
+using AppFileUploader.Infrastructure.Storage.OnPremises;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using OpenTelemetry;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using Serilog;
 using System.Text;
-using AppFileUploader.API.Extensions;
-using AppFileUploader.Infrastructure.Persistence;
-using AppCommonSettings;
-using AppFileUploader.Application.Contract.Storage;
-using AppFileUploader.Infrastructure.Storage.OnPremises;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +28,33 @@ var logger = new LoggerConfiguration()
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
+
+
+#region Open Telemetry
+
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracerProviderBuilder =>
+    {
+        tracerProviderBuilder            
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddSqlClientInstrumentation()
+            .AddSource("AppLayer")
+            .AddSource("DBLayer")
+            .AddOtlpExporter();
+    })
+    .WithMetrics(metricsBuilder =>
+    {
+        metricsBuilder
+            .AddRuntimeInstrumentation()
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddMeter("Microsoft.AspNetCore.Hosting")
+            .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
+            .AddOtlpExporter();
+    }).WithLogging( );
+
+#endregion
 
 #region Authentication Key
 builder.Services.AddAuthentication(options =>

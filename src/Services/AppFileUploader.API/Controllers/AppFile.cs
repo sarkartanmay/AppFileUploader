@@ -30,7 +30,8 @@ namespace AppFileUploader.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<int>> Save([FromForm] AddContentCommand command)
         {
-            var result = await _mediator.Send(command);
+            _logger.LogInformation("Controller called for File upload");
+            var result = await _mediator.Send(command);            
             return Ok(result);
         }        
     }

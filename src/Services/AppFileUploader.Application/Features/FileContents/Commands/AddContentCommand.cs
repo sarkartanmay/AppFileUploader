@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AppFileUploader.Application.Contract.Persistence;
 using AppFileUploader.Application.Contract.Storage;
 using AppFileUploader.Domain.Entities;
@@ -11,6 +7,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+
 
 namespace AppFileUploader.Application.Features.FileContents.Commands
 {
@@ -47,6 +45,8 @@ namespace AppFileUploader.Application.Features.FileContents.Commands
         private readonly IConfiguration _configuration;
         private readonly IStorage _storage;
 
+        private static readonly ActivitySource ActivitySource = new("AppLayer");
+
         public AddContentCommandHandler(IFileContent<FileContent> repository,  IMapper mapper, ILogger<AddContentCommandHandler> logger, IConfiguration configuration, IStorage storage)
         {
             _repository = repository;
@@ -58,6 +58,8 @@ namespace AppFileUploader.Application.Features.FileContents.Commands
 
         public async Task<FileContent> Handle(AddContentCommand request, CancellationToken cancellationToken)
         {
+            using var activity = ActivitySource.StartActivity("AddContentCommandHandler-Handle");
+            
             bool uploadStatus = await _storage.MoveFiles(request.File);
             if (uploadStatus)
             {
@@ -70,6 +72,7 @@ namespace AppFileUploader.Application.Features.FileContents.Commands
                 };
                 var CmdEnt = _mapper.Map<FileContent>(request2);
                 var newObj = await _repository.AddAsync(CmdEnt);
+                activity?.SetTag("File.id", newObj.Id);
                 return newObj;
             }
             return null;            

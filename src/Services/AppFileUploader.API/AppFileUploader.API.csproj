@@ -18,12 +18,26 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
-		<PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-		<PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
-		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+		
+    
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.5" />
+    
+		<PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />		
+		<PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.2.0" />
+		<PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />		
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />    
+
+    <PackageReference Include="Microsoft.Extensions.Telemetry" Version="9.6.0" />
+    <PackageReference Include="OpenTelemetry" Version="1.12.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.12.0-beta.1" />
+    <PackageReference Include="MySql.Data.OpenTelemetry" Version="8.4.0" />
 	</ItemGroup>
 
   <ItemGroup>
@@ -34,6 +48,7 @@
 
   <ItemGroup>
     <Folder Include="Extensions\" />
+    <Folder Include="logs\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
 
