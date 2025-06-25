@@ -18,15 +18,13 @@ services:
       - ApplicationOptions:JWTConfig:Key=${APP_UPD_EXTERNAL_JWT_KEY}
       - ApplicationOptions:InfraStructure:Mode=${APP_UPD_INFRA_MODE}
       - ApplicationOptions:InfraStructure:OnPrem:UploadPath=./Uploads/
-      - Serilog:WriteTo__2__Args:connectionString=${APP_UPD_INFRA_LOG_AZURE_APPINSIGHT}
-      - Serilog:WriteTo__3__Args:serverUrl=${APP_UPD_INFRA_LOG_SEQ}
-      - Serilog:WriteTo__4__Args:Endpoint=${APP_UPD_INFRA_LOG_OTLP_GRPC}
-      - Serilog:WriteTo__4__Args:ResourceAttributes:service.name=${APP_UPD_NAME}_Log
+      - Serilog:WriteTo__1__Args:connectionString=${APP_UPD_INFRA_LOG_AZURE_APPINSIGHT}
+      - Serilog:WriteTo__2__Args:serverUrl=${APP_UPD_INFRA_LOG_SEQ}
+      - Serilog:WriteTo__3__Args:Endpoint=${APP_UPD_INFRA_LOG_OTLP_GRPC}
+      - Serilog:WriteTo__3__Args:ResourceAttributes:service.name=${APP_UPD_NAME}_Log
     volumes:
-      - appupdlog:/app/logs/
-      - appupdfile1:/app/Uploads/
+      - appupdfolder:/app/Uploads/
 
 volumes:
-  appupdlog:
-  appupdfile1:
+  appupdfolder:
   
