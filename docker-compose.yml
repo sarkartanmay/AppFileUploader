@@ -8,8 +8,9 @@ services:
       - ${APP_UPD_PORT}:8080
     environment:
       - ASPNETCORE_ENVIRONMENT=${APP_UPD_ENV}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTLP_ENDPOINT}
+      - OTEL_EXPORTER_OTLP_PROTOCOL=${OTLP_PROTOCOL}
       - ApplicationOptions:AppName=${APP_UPD_NAME}
-      - ApplicationOptions:OtlpEndpoint=${APP_UPD_INFRA_LOG_OTLP_GRPC}
       - ApplicationOptions:MySqlDb:Server=${APP_UPD_DB_SERVER}
       - ApplicationOptions:MySqlDb:User=${APP_UPD_DB_USER}
       - ApplicationOptions:MySqlDb:Password=${APP_UPD_DB_PASSWORD}
@@ -19,10 +20,10 @@ services:
       - ApplicationOptions:InfraStructure:Mode=${APP_UPD_INFRA_MODE}
       - ApplicationOptions:InfraStructure:OnPrem:UploadPath=./Uploads/
       - Serilog:WriteTo__1__Args:connectionString=${APP_UPD_INFRA_LOG_AZURE_APPINSIGHT}
-      - Serilog:WriteTo__2__Args:serverUrl=${APP_UPD_INFRA_LOG_SEQ}
-      - Serilog:WriteTo__3__Args:Endpoint=${APP_UPD_INFRA_LOG_OTLP_GRPC}
       - Serilog:WriteTo__3__Args:ResourceAttributes:service.name=${APP_UPD_NAME}_Log
       - Serilog:Properties:Application=${APP_UPD_NAME}
+      - Serilog:Properties:service.name=${APP_UPD_NAME}
+      - Serilog:Properties:service.version=${APP_UPD_VERSION}
     volumes:
       - appupdfolder:/app/Uploads/
 

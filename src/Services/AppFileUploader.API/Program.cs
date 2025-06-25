@@ -45,11 +45,7 @@ builder.Services.AddOpenTelemetry()
             .AddSqlClientInstrumentation()
             .AddSource("AppLayer")
             .AddSource("InfraLayer")
-            .AddOtlpExporter(otlpOptions =>
-            {
-                otlpOptions.Endpoint = new Uri(applicationOptions.OtlpEndpoint);
-                otlpOptions.Protocol = OtlpExportProtocol.Grpc;
-            });
+            .AddOtlpExporter();
     })
     .WithMetrics(metricsBuilder =>
     {
@@ -60,11 +56,7 @@ builder.Services.AddOpenTelemetry()
             .AddHttpClientInstrumentation()
             .AddMeter("Microsoft.AspNetCore.Hosting")
             .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
-            .AddOtlpExporter(otlpOptions =>
-            {
-                otlpOptions.Endpoint = new Uri(applicationOptions.OtlpEndpoint);
-                otlpOptions.Protocol = OtlpExportProtocol.Grpc;
-            });
+            .AddOtlpExporter();
     }).WithLogging( );
 
 #endregion
