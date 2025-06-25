@@ -22,6 +22,7 @@ services:
       - Serilog:WriteTo__2__Args:serverUrl=${APP_UPD_INFRA_LOG_SEQ}
       - Serilog:WriteTo__3__Args:Endpoint=${APP_UPD_INFRA_LOG_OTLP_GRPC}
       - Serilog:WriteTo__3__Args:ResourceAttributes:service.name=${APP_UPD_NAME}_Log
+      - Serilog:Properties:Application=${APP_UPD_NAME}
     volumes:
       - appupdfolder:/app/Uploads/
 
