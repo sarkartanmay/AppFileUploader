@@ -1,6 +1,7 @@
 # App File Uploader
 
 ## OpenTelemetry
+
 ### Aspire Dashboard
 
 ```
@@ -14,7 +15,6 @@ OTLP_PROTOCOL=http/protobuf
 
 
 ```
-APP_UPD_INFRA_LOG_SEQ=http://local_seq_seq
 OTLP_ENDPOINT=http://local_seq_seq:5341/ingest/otlp/v1/traces
 OTLP_PROTOCOL=http/protobuf
 ```
